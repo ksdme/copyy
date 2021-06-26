@@ -1,5 +1,5 @@
 interface Props {
-  children: JSX.Element[]
+  children: JSX.Element | JSX.Element[]
 }
 
 /*
@@ -11,10 +11,8 @@ export default function Nav(props: Props) {
   } = props
 
   return (
-    <div className="flex-none bg-white border-b-2 border-gray-200">
-      <nav className="px-16 flex justify-between items-center">
-        {children}
-      </nav>
-    </div>
+    <nav className="flex-none px-16 bg-white border-b-2 border-gray-200">
+      {children}
+    </nav>
   )
 }

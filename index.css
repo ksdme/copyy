@@ -1,3 +1,13 @@
 .font-orienta {
   font-family: 'Orienta', sans-serif !important;
 }
+
+.selection-black-white::-moz-selection {
+  color: white;
+  background: black;
+}
+
+.selection-black-white::selection {
+  color: white;
+  background: black;
+}
