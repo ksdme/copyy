@@ -4,6 +4,7 @@ import {
   ClipboardIcon,
   SortAscendingIcon,
 } from '@heroicons/react/outline'
+import { When } from 'react-if'
 import { useMqttAutoConnect } from '../hooks/useMqtt'
 import Button from '../components/Button/Button'
 import Head from '../components/Head/Head'
@@ -19,6 +20,10 @@ function HomeComponent(props: Props) {
     status,
     broker,
   ] = useMqttAutoConnect()
+
+  const online = (
+    status === 'online'
+  )
 
   return (
     <div className="h-screen flex flex-col gap-y-8 font-orienta bg-gray-100">
@@ -46,16 +51,25 @@ function HomeComponent(props: Props) {
 
       <div className="grid grid-cols-3 px-8">
         <div className="col-start-3 flex justify-end items-center gap-x-10">
-          <Status status={status} />
+          <When condition={online}>
+            <Status status={status} />
+          </When>
+
           <Button text="Copy" icon={ClipboardIcon} />
           <Button text="Paste" icon={ArrowCircleDownIcon} />
           <Button text="Force Send" icon={SortAscendingIcon} />
         </div>
       </div>
 
-      <div className="h-full flex-grow px-8 pb-8">
+      <div className="relative h-full flex-grow mx-8 mb-8">
+        <When condition={!online}>
+          <div className="w-full h-full flex items-center justify-center absolute rounded-lg bg-gray-200">
+            <Status status={status} color="text-gray-500" />
+          </div>
+        </When>
+
         <div
-          className="p-8 bg-white h-full rounded-lg resize-none border-2 border-gray-200 outline-none selection-black-white"
+          className="p-8 bg-white h-full resize-none rounded-lg border-2 border-gray-200 outline-none selection-black-white"
           contentEditable={true}
           suppressContentEditableWarning={true}>
           hello world link hey

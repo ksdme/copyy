@@ -9,6 +9,7 @@ import Button from '../Button/Button'
 
 interface Props {
   status: MqttStatus
+  color?: string
 }
 
 /*
@@ -17,6 +18,7 @@ interface Props {
 export default function Status(props: Props) {
   const {
     status,
+    color,
   } = props
 
   let message = 'Unknown'
@@ -60,7 +62,7 @@ export default function Status(props: Props) {
       icon={icon}
       text={message}
       className={pulsate ? 'animate-pulse' : null}
-      color="text-gray-400"
+      color={color ?? 'text-gray-400'}
       title="Connection Status" />
   )
 }
