@@ -49,7 +49,8 @@ export default function Home() {
         <div className="h-full flex-grow px-8 pb-8">
           <div
             className="p-8 bg-white h-full rounded-lg resize-none border-2 border-gray-200 outline-none selection-black-white"
-            contentEditable>
+            contentEditable={true}
+            suppressContentEditableWarning={true}>
             hello world link hey
           </div>
         </div>
