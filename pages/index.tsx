@@ -25,10 +25,8 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="flex items-center justify-center tracking-wide font-medium gap-x-4">
-              <span className="font-medium text-gray-600">
-                battle bank bike system
-              </span>
+            <div className="flex items-center justify-center text-gray-600 cursor-pointer hover:text-black tracking-wide font-medium gap-x-2">
+              battle bank bike system
             </div>
 
             <div className="flex items-center justify-end tracking-wide font-medium gap-x-4">
