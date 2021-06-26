@@ -5,6 +5,7 @@ import {
   SortAscendingIcon,
 } from '@heroicons/react/outline'
 import { When } from 'react-if'
+import { rword } from 'rword'
 import { useMqttAutoConnect } from '../hooks/useMqtt'
 import Button from '../components/Button/Button'
 import Head from '../components/Head/Head'
@@ -12,10 +13,14 @@ import Nav from '../components/Nav/Nav'
 import Status from '../components/Status/Status'
 
 interface Props {
-
+  defaultCode: string
 }
 
 function HomeComponent(props: Props) {
+  const {
+    defaultCode,
+  } = props
+
   const [
     status,
     broker,
@@ -38,7 +43,7 @@ function HomeComponent(props: Props) {
           </div>
 
           <div className="flex items-center justify-center text-gray-600 cursor-pointer hover:text-black tracking-wide font-medium gap-x-2">
-            battle bank bike system
+            {defaultCode}
           </div>
 
           <div className="flex items-center justify-end tracking-wide font-medium gap-x-4">
@@ -86,4 +91,18 @@ export default function Home(props: Props) {
       <HomeComponent {...props} />
     </React.Fragment>
   )
+}
+
+export async function getServerSideProps() {
+  // Generate the default code if one wasn't found.
+  const words = rword.generate(4) as string[]
+
+  // Props for render.
+  const props: Props = {
+    defaultCode: words.join(' '),
+  }
+
+  return {
+    props,
+  }
 }
