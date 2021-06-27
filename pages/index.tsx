@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import {
   ArrowCircleDownIcon,
+  CheckCircleIcon,
   ClipboardIcon,
   SortAscendingIcon,
 } from '@heroicons/react/outline'
@@ -9,6 +10,7 @@ import { rword } from 'rword'
 import useContentEditable from '../hooks/useContentEditable'
 import { useMqttAutoConnect } from '../hooks/useMqtt'
 import Button from '../components/Button/Button'
+import LabelStateButton from '../components/Button/LabelStateButton'
 import Head from '../components/Head/Head'
 import Nav from '../components/Nav/Nav'
 import Status from '../components/Status/Status'
@@ -69,9 +71,45 @@ function HomeComponent(props: Props) {
             <Status status={status} />
           </When>
 
-          <Button text="Copy" icon={ClipboardIcon} />
-          <Button text="Paste" icon={ArrowCircleDownIcon} />
-          <Button text="Force Send" icon={SortAscendingIcon} />
+          <LabelStateButton
+            idle={{
+              label: 'Copy',
+              icon: ClipboardIcon,
+            }}
+            complete={{
+              label: 'Copied',
+              icon: CheckCircleIcon,
+              color: 'text-black',
+            }}
+            title="Copy" />
+
+          <LabelStateButton
+            idle={{
+              label: 'Paste',
+              icon: ArrowCircleDownIcon,
+            }}
+            complete={{
+              label: 'Pasted',
+              icon: CheckCircleIcon,
+              color: 'text-black',
+            }}
+            title="Paste" />
+
+          <LabelStateButton
+            idle={{
+              label: 'Force Send',
+              icon: SortAscendingIcon,
+            }}
+            active={{
+              label: 'Sending',
+              icon: SortAscendingIcon,
+            }}
+            complete={{
+              label: 'Sent',
+              icon: CheckCircleIcon,
+              color: 'text-black',
+            }}
+            title="Force Send" />
         </div>
       </div>
 
