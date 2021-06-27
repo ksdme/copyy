@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import {
   ArrowCircleDownIcon,
   ClipboardIcon,
@@ -6,6 +6,7 @@ import {
 } from '@heroicons/react/outline'
 import { When } from 'react-if'
 import { rword } from 'rword'
+import useContentEditable from '../hooks/useContentEditable'
 import { useMqttAutoConnect } from '../hooks/useMqtt'
 import Button from '../components/Button/Button'
 import Head from '../components/Head/Head'
@@ -25,6 +26,14 @@ function HomeComponent(props: Props) {
     status,
     broker,
   ] = useMqttAutoConnect()
+
+  const ref = useRef(
+    null,
+  )
+
+  const [
+    content,
+  ] = useContentEditable(ref)
 
   const online = (
     status === 'online'
@@ -75,9 +84,9 @@ function HomeComponent(props: Props) {
 
         <div
           className="p-8 bg-white h-full resize-none rounded-lg border-2 border-gray-200 outline-none selection-black-white"
+          ref={ref}
           contentEditable={true}
           suppressContentEditableWarning={true}>
-          hello world link hey
         </div>
       </div>
     </div>
