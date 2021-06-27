@@ -4,15 +4,21 @@ import { useEffect, useState } from 'react'
 // Application level state of the connection to the broker.
 export type Status = 'offline' | 'online' | 'connecting' | 'error'
 
-// Explicitly declare the types of the returned elements.
-type UseConnectResult = [Status, mqtt.Client, (() => void)]
+/*
+  Represents a message on the broker.
+*/
+interface Message {
+  id?: number
+  text: string
+  receivedAt: Date
+}
 
 /*
   Hook that you can use to get the current connection to the broker,
   the current state of the connection and also a method to request a
   connection.
 */
-export default function useMqtt(broker = 'ws://broker.hivemq.com:8000/mqtt'): UseConnectResult {
+export default function useMqtt(broker = 'ws://broker.hivemq.com:8000/mqtt') {
   const [
     client,
     setClient,
@@ -46,31 +52,128 @@ export default function useMqtt(broker = 'ws://broker.hivemq.com:8000/mqtt'): Us
     setClient(client)
   }
 
-  return [
+  return {
     status,
     client,
     connect,
-  ]
+  }
+}
+
+/*
+  Generate topic for the code with a fallback.
+*/
+export function useTopic(code: string) {
+  return `text-copy/Ve5Z96/hello-world-harry-potter`
+  code = code?.replaceAll(' ', '') ?? 'global'
+  return `text-copy/Ve5Z96/${code}`  
+}
+
+/*
+  Runs a callback when the latest message was changed while also
+  returning the latest message.
+*/
+export function useWithLatestMessage(client: mqtt.Client, topic: string, callback?: ((message: Message) => void)) {
+  const [
+    latestMessage,
+    setLatestMessage,
+  ] = useState<Message>(null)
+
+  // Subscribe to the topic.
+  useEffect(() => {
+    if (client === null) {
+      return
+    }
+
+    // TODO: This could run multiple times.
+    // Subscribe to the topic.
+    client.subscribe(topic, {
+      qos: 2,
+      nl: true,
+    })
+
+    // Keep track of the latest message on the topic.
+    client.on('message', (incomingTopic, payload, packet) => {
+      if (incomingTopic !== topic) {
+        return
+      }
+
+      if (packet.dup ?? false) {
+        return
+      }
+
+      setLatestMessage({
+        id: packet.messageId,
+        receivedAt: new Date(),
+        text: payload.toString('utf-8'),
+      })
+    })
+  }, [client])
+
+  // Invoke callback when the latest message is changed.
+  useEffect(() => {
+    if (callback) {
+      callback(latestMessage)
+    }
+  }, [callback, latestMessage])
+
+  return {
+    message: latestMessage,
+  }
 }
 
 /*
   Utility hook that automatically connects to the broker.
 */
-export function useMqttAutoConnect(): [Status, mqtt.Client] {
-  const [
+export function useMqttAutoConnect() {
+  const {
     status,
-    broker,
+    client,
     connect,
-  ] = useMqtt()
+   } = useMqtt()
 
   useEffect(() => {
-    if (broker === null) {
+    if (client === null) {
       connect()
     }
   }, [])
 
-  return [
+  return {
     status,
-    broker,
-  ]
+    client,
+  }
+}
+
+/*
+  Hook that returns a publisher method that can be used to publish
+  to a topic and also returns the current publishing status.
+*/
+export function useTopicPublish(client: mqtt.Client, topic: string) {
+  const [
+    publishing,
+    setPublishing,
+  ] = useState<boolean>(false)
+
+  // Method that publishes to a topic.
+  const publisher = (message: string) => {
+    if (client === null) {
+      return
+    }
+
+    if (!message) {
+      return
+    }
+
+    // Set the publishing flag.
+    setPublishing(true)
+
+    // Publish the message and update flag.
+    client.publish(topic, message, () => {
+      setPublishing(false)
+    })
+  }
+
+  return {
+    publisher,
+    publishing,
+  }
 }

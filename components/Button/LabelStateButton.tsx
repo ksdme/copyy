@@ -5,6 +5,7 @@ interface Label {
   label: string
   icon: any
   color?: string
+  pulsating?: boolean
 }
 
 interface Props {
@@ -75,6 +76,7 @@ export default function LabelStateButton(props: Props) {
       text={state.label}
       icon={state.icon}
       color={state.color}
+      pulsating={state.pulsating}
       onClick={handler}
       title={title} />
   )

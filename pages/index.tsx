@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import {
   ArrowCircleDownIcon,
   CheckCircleIcon,
@@ -8,7 +8,12 @@ import {
 import { When } from 'react-if'
 import { rword } from 'rword'
 import useContentEditable from '../hooks/useContentEditable'
-import { useMqttAutoConnect } from '../hooks/useMqtt'
+import {
+  useMqttAutoConnect,
+  useTopic,
+  useTopicPublish,
+  useWithLatestMessage,
+} from '../hooks/useMqtt'
 import LabelStateButton from '../components/Button/LabelStateButton'
 import Head from '../components/Head/Head'
 import Nav from '../components/Nav/Nav'
@@ -23,19 +28,46 @@ function HomeComponent(props: Props) {
     defaultCode,
   } = props
 
-  const [
+  // Establish a connection to the broker on
+  // application bootup.
+  const {
+    client,
     status,
-    broker,
-  ] = useMqttAutoConnect()
+  } = useMqttAutoConnect()
 
-  const ref = useRef(
+  const topic = useTopic(
+    'hello world harry potter',
+  )
+
+  // Reference to the editor
+  const ref = useRef<HTMLDivElement>(
     null,
   )
 
-  const [
-    content,
-  ] = useContentEditable(ref)
+  // Publishers for the topic.
+  const {
+    publisher,
+    publishing,
+  } = useTopicPublish(client, topic)
 
+  // Hook up the transformer for the editor and callback when
+  // the input is processed if available.
+  const {
+    updateContent,
+  } = useContentEditable(ref, (content) => {
+    if (content) {
+      publisher(content)
+    }
+  })
+
+  // Update the content when you receieve a message.
+  useWithLatestMessage(client, topic, (message) => {
+    if (message) {
+      updateContent(message.text)
+    }
+  })
+
+  // Is online.
   const online = (
     status === 'online'
   )
@@ -67,7 +99,7 @@ function HomeComponent(props: Props) {
       <div className="grid grid-cols-3 px-8">
         <div className="col-start-3 flex justify-end items-center gap-x-10">
           <When condition={online}>
-            <Status status={status} />
+            <Status status={status} publishing={publishing} />
           </When>
 
           <LabelStateButton
@@ -102,6 +134,7 @@ function HomeComponent(props: Props) {
             active={{
               label: 'Sending',
               icon: SortAscendingIcon,
+              pulsating: true,
             }}
             complete={{
               label: 'Sent',
@@ -115,7 +148,7 @@ function HomeComponent(props: Props) {
       <div className="relative h-full flex-grow mx-8 mb-8">
         <When condition={!online}>
           <div className="w-full h-full flex items-center justify-center absolute rounded-lg bg-gray-100">
-            <Status status={status} color="text-gray-500" />
+            <Status status={status} publishing={publishing} color="text-gray-500" />
           </div>
         </When>
 

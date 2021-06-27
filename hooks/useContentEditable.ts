@@ -31,14 +31,14 @@ export function getStyledContent(text: string) {
   Hook that allows to transform the content of the contenteditable and also
   keep track of the content in the field.
 */
-export default function useContentEditable(ref: RefObject<HTMLElement>) {
+export default function useContentEditable(ref: RefObject<HTMLElement>, callback?: ((text: string) => void)) {
   const [
     content,
     setContent,
   ] = useState<string>(null)
 
   // Method that can be used to update the content on the field.
-  const update = (text: string) => {
+  const updateContent = (text: string) => {
     if (!ref.current) {
       return
     }
@@ -58,7 +58,15 @@ export default function useContentEditable(ref: RefObject<HTMLElement>) {
   useEffect(() => {
     if (ref.current) {
       const onInput = () => {
-        update(ref.current.innerText)
+        const text = ref.current.innerText
+
+        // Invoke the callback.
+        if (callback) {
+          callback(text)
+        }
+
+        // Update content on the editable.
+        updateContent(text)
       }
 
       // Debounce call to the handler.
@@ -73,6 +81,6 @@ export default function useContentEditable(ref: RefObject<HTMLElement>) {
 
   return {
     content,
-    update,
+    updateContent,
   }
 }

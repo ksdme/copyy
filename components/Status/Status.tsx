@@ -3,12 +3,14 @@ import {
   StatusOfflineIcon,
   StatusOnlineIcon,
   SwitchVerticalIcon,
+  UploadIcon,
 } from '@heroicons/react/outline'
 import { Status as MqttStatus } from '../../hooks/useMqtt'
 import Button from '../Button/Button'
 
 interface Props {
   status: MqttStatus
+  publishing: boolean
   color?: string
 }
 
@@ -18,6 +20,7 @@ interface Props {
 export default function Status(props: Props) {
   const {
     status,
+    publishing,
     color,
   } = props
 
@@ -55,6 +58,11 @@ export default function Status(props: Props) {
       message = 'Unknown'
       icon = null
     }
+  }
+
+  if (status === 'online' && publishing) {
+    message = 'Publishing'
+    icon = UploadIcon
   }
 
   return (
