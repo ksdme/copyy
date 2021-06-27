@@ -115,7 +115,7 @@ function HomeComponent(props: Props) {
 
       <div className="relative h-full flex-grow mx-8 mb-8">
         <When condition={!online}>
-          <div className="w-full h-full flex items-center justify-center absolute rounded-lg bg-gray-200">
+          <div className="w-full h-full flex items-center justify-center absolute rounded-lg bg-gray-100">
             <Status status={status} color="text-gray-500" />
           </div>
         </When>
