@@ -2,12 +2,14 @@
   font-family: 'Orienta', sans-serif !important;
 }
 
-.selection-black-white::-moz-selection {
+.selection-black-white::-moz-selection,
+.selection-black-white a::selection {
   color: white;
   background: black;
 }
 
-.selection-black-white::selection {
+.selection-black-white::selection,
+.selection-black-white a::selection {
   color: white;
   background: black;
 }
