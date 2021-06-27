@@ -37,17 +37,28 @@ export default function useContentEditable(ref: RefObject<HTMLElement>) {
     setContent,
   ] = useState<string>(null)
 
+  // Method that can be used to update the content on the field.
+  const update = (text: string) => {
+    if (!ref.current) {
+      return
+    }
+
+    // Transform the text to html.
+    const html = getStyledContent(text)
+    ref.current.innerHTML = html
+
+    // Unfocus the field to work around the misplaced caret after
+    // updating the content.
+    ref.current.blur()
+
+    // Remember the current content.
+    setContent(text)
+  }
+
   useEffect(() => {
     if (ref.current) {
       const onInput = () => {
-        // Get the transform the text.
-        const text = ref.current.innerText
-        const html = getStyledContent(text)
-
-        // Update the field and the state.
-        ref.current.innerHTML = html
-        ref.current.blur()
-        setContent(text)
+        update(ref.current.innerText)
       }
 
       // Debounce call to the handler.
@@ -60,7 +71,8 @@ export default function useContentEditable(ref: RefObject<HTMLElement>) {
     ref.current,
   ])
 
-  return [
+  return {
     content,
-  ]
+    update,
+  }
 }
