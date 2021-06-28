@@ -142,7 +142,7 @@ export function useWithLatestMessage(client: mqtt.Client, topic: string, callbac
     if (callback) {
       callback(latestMessage)
     }
-  }, [callback, latestMessage])
+  }, [latestMessage])
 
   return {
     message: latestMessage,
