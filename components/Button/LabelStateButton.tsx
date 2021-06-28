@@ -13,7 +13,7 @@ interface Props {
   active?: Label
   complete?: Label
   error?: Label
-  onClick?: (() => Promise<void>)
+  onClick?: (() => void | Promise<void>)
   title?: string
   delay?: number
 }

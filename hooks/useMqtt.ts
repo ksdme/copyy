@@ -186,7 +186,7 @@ export function useTopicPublish(client: mqtt.Client, topic: string) {
   ] = useClientID()
 
   // Method that publishes to a topic.
-  const publisher = (message: string) => {
+  const publisher = (message: string, callback?: ((err?: any) => void)) => {
     if (client === null) {
       return
     }
@@ -205,8 +205,14 @@ export function useTopicPublish(client: mqtt.Client, topic: string) {
     })
 
     // Publish the message and update flag.
-    client.publish(topic, payload, () => {
+    client.publish(topic, payload, (err) => {
+      // Mark published.
       setPublishing(false)
+
+      // Published callback.
+      if (callback) {
+        callback(err)
+      }
     })
   }
 

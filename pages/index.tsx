@@ -50,16 +50,19 @@ function HomeComponent(props: Props) {
     publishing,
   } = useTopicPublish(client, topic)
 
+  // Publish the content on the board.
+  const publish = () => {
+    if (ref?.current) {
+      publisher(ref?.current.innerText)
+    }
+  }
+
   // Hook up the transformer for the editor and callback when
   // the input is processed if available.
   const {
     onInput,
     updateContent,
-  } = useContentEditable(ref, (content) => {
-    if (content) {
-      publisher(content)
-    }
-  })
+  } = useContentEditable(ref, publish)
 
   // Update the content when you receieve a message.
   useWithLatestMessage(client, topic, (message) => {
@@ -132,16 +135,12 @@ function HomeComponent(props: Props) {
               label: 'Force Send',
               icon: SortAscendingIcon,
             }}
-            active={{
-              label: 'Sending',
-              icon: SortAscendingIcon,
-              pulsating: true,
-            }}
             complete={{
               label: 'Sent',
               icon: CheckCircleIcon,
               color: 'text-black',
             }}
+            onClick={publish}
             title="Force Send" />
         </div>
       </div>
