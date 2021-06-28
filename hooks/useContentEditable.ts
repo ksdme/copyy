@@ -60,8 +60,8 @@ export default function useContentEditable(ref: RefObject<HTMLElement>, callback
     field.
   */
   const onInputHandler = () => {
-    // Input text on the field.
-    const text = ref.current?.innerText
+    // Input text on the editable field.
+    const text = ref?.current?.innerText
 
     if (!text) {
       return
