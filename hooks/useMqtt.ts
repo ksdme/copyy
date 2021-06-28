@@ -1,4 +1,5 @@
 import mqtt from 'mqtt'
+import random from 'random'
 import { useEffect, useState } from 'react'
 
 // Application level state of the connection to the broker.
@@ -12,6 +13,18 @@ interface Message {
   text: string
   receivedAt: Date
 }
+
+const _identifier = random.int(
+  Math.pow(10, 8),
+  Math.pow(10, 16),
+)
+
+/*
+  Return the Client ID for the MQTT.
+*/
+export const useClientID = () => [
+  _identifier,
+]
 
 /*
   Hook that you can use to get the current connection to the broker,
@@ -49,6 +62,7 @@ export default function useMqtt(broker = 'ws://broker.hivemq.com:8000/mqtt') {
     client.on('offline', () => setStatus('offline'))
     client.on('reconnect', () => setStatus('connecting'))
 
+    // Save the client.
     setClient(client)
   }
 
@@ -78,6 +92,10 @@ export function useWithLatestMessage(client: mqtt.Client, topic: string, callbac
     setLatestMessage,
   ] = useState<Message>(null)
 
+  const [
+    identifier,
+  ] = useClientID()
+
   // Subscribe to the topic.
   useEffect(() => {
     if (client === null) {
@@ -101,11 +119,21 @@ export function useWithLatestMessage(client: mqtt.Client, topic: string, callbac
         return
       }
 
-      setLatestMessage({
-        id: packet.messageId,
-        receivedAt: new Date(),
-        text: payload.toString('utf-8'),
-      })
+      // Parse the incoming message on the broker.
+      const {
+        message,
+        identifier: sender,
+      } = JSON.parse(payload.toString())
+
+      // If the sender of the message isn't the current user, don't
+      // process the message.
+      if (sender !== identifier) {
+        setLatestMessage({
+          id: packet.messageId,
+          text: message,
+          receivedAt: new Date(),
+        })
+      }
     })
   }, [client])
 
@@ -153,6 +181,10 @@ export function useTopicPublish(client: mqtt.Client, topic: string) {
     setPublishing,
   ] = useState<boolean>(false)
 
+  const [
+    identifier,
+  ] = useClientID()
+
   // Method that publishes to a topic.
   const publisher = (message: string) => {
     if (client === null) {
@@ -166,8 +198,14 @@ export function useTopicPublish(client: mqtt.Client, topic: string) {
     // Set the publishing flag.
     setPublishing(true)
 
+    // Generate the payload for the wire.
+    const payload = JSON.stringify({
+      identifier,
+      message,
+    })
+
     // Publish the message and update flag.
-    client.publish(topic, message, () => {
+    client.publish(topic, payload, () => {
       setPublishing(false)
     })
   }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import {
   ArrowCircleDownIcon,
   CheckCircleIcon,
@@ -53,6 +53,7 @@ function HomeComponent(props: Props) {
   // Hook up the transformer for the editor and callback when
   // the input is processed if available.
   const {
+    onInput,
     updateContent,
   } = useContentEditable(ref, (content) => {
     if (content) {
@@ -155,6 +156,7 @@ function HomeComponent(props: Props) {
         <div
           className="p-8 bg-white h-full resize-none rounded-lg border-2 border-gray-200 outline-none selection-black-white"
           ref={ref}
+          onInput={onInput}
           contentEditable={true}
           suppressContentEditableWarning={true}>
         </div>
