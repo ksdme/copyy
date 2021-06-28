@@ -38,7 +38,7 @@ export default function useContentEditable(ref: RefObject<HTMLElement>, callback
   ] = useState<string>(null)
 
   // Method that can be used to update the content on the field.
-  const updateContent = (text: string) => {
+  const updateEditableContent = (text: string) => {
     if (!ref.current) {
       return
     }
@@ -73,7 +73,7 @@ export default function useContentEditable(ref: RefObject<HTMLElement>, callback
     }
 
     // Update content on the editable.
-    updateContent(text)
+    updateEditableContent(text)
   }
 
   // Debounced handler.
@@ -85,6 +85,6 @@ export default function useContentEditable(ref: RefObject<HTMLElement>, callback
   return {
     content,
     onInput,
-    updateContent,
+    updateEditableContent,
   }
 }

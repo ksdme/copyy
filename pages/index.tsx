@@ -1,10 +1,10 @@
-import React, { useRef } from 'react'
 import {
   ArrowCircleDownIcon,
   CheckCircleIcon,
   ClipboardIcon,
   SortAscendingIcon,
 } from '@heroicons/react/outline'
+import React, { useRef } from 'react'
 import { When } from 'react-if'
 import { rword } from 'rword'
 import useContentEditable from '../hooks/useContentEditable'
@@ -61,13 +61,13 @@ function HomeComponent(props: Props) {
   // the input is processed if available.
   const {
     onInput,
-    updateContent,
+    updateEditableContent,
   } = useContentEditable(ref, publish)
 
   // Update the content when you receieve a message.
   useWithLatestMessage(client, topic, (message) => {
     if (message) {
-      updateContent(message.text)
+      updateEditableContent(message.text)
     }
   })
 
@@ -75,6 +75,32 @@ function HomeComponent(props: Props) {
   const online = (
     status === 'online'
   )
+
+  // Copy current board to Clipboard
+  const copy = () => {
+    if (ref?.current) {
+      return navigator?.clipboard?.writeText(
+        ref.current.innerText,
+      )
+    }
+  }
+
+  // Paste value from Clipboard to board
+  const paste = async () => {
+    // Get value on the Clipboard.
+    const text = await navigator
+      ?.clipboard
+      ?.readText()
+
+    if (text === null) {
+      return
+    }
+
+    if (ref?.current) {
+      updateEditableContent(text)
+      publisher(text)
+    }
+  }
 
   return (
     <div className="h-screen flex flex-col gap-y-8 font-orienta bg-gray-100">
@@ -116,6 +142,7 @@ function HomeComponent(props: Props) {
               icon: CheckCircleIcon,
               color: 'text-black',
             }}
+            onClick={copy}
             title="Copy" />
 
           <LabelStateButton
@@ -128,6 +155,7 @@ function HomeComponent(props: Props) {
               icon: CheckCircleIcon,
               color: 'text-black',
             }}
+            onClick={paste}
             title="Paste" />
 
           <LabelStateButton
