@@ -31,7 +31,7 @@ export const useClientID = () => [
   the current state of the connection and also a method to request a
   connection.
 */
-export default function useMqtt(broker = 'ws://broker.hivemq.com:8000/mqtt') {
+export default function useMqtt(broker = 'wss://broker.emqx.io:8084/mqtt') {
   const [
     client,
     setClient,
