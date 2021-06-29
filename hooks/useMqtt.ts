@@ -77,9 +77,15 @@ export default function useMqtt(broker = 'wss://broker.emqx.io:8084/mqtt') {
   Generate topic for the code with a fallback.
 */
 export function useTopic(code: string) {
-  return `text-copy/Ve5Z96/hello-world-harry-potter`
-  code = code?.replaceAll(' ', '') ?? 'global'
-  return `text-copy/Ve5Z96/${code}`  
+  code = code
+    ?.split(' ')
+    ?.join('-')
+
+  code = (
+    code ?? 'global'
+  )
+
+  return `text-copy/Ve5Z96/${code}`
 }
 
 /*

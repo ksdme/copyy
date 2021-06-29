@@ -5,15 +5,12 @@ import { generateCode } from '../hooks/useCode'
 // Use Home
 export default Home
 
-interface ServerSideProps {
-  props: Props
-}
-
 // Default to using a random code.
-export async function getServerSideProps(_: GetServerSidePropsContext): Promise<ServerSideProps> {
+export async function getServerSideProps(_: GetServerSidePropsContext) {
   return {
-    props: {
-      defaultCode: generateCode(),
+    redirect: {
+      destination: generateCode(),
+      permanent: false,
     },
   }
 }
