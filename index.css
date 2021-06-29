@@ -13,3 +13,10 @@
   color: white;
   background: black;
 }
+
+[contenteditable=true]:empty:before {
+  display: block;
+  pointer-events: none;
+  content: attr(placeholder);
+  color: rgba(156, 163, 175, 0.75);
+}

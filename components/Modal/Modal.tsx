@@ -4,6 +4,7 @@ import { Fragment, useRef } from 'react'
 
 interface Props {
   open?: boolean
+  onSubmit?: ((value: string) => void)
   setOpen: (value: boolean) => void
 }
 
@@ -13,6 +14,7 @@ interface Props {
 export default function Modal(props: Props) {
   const {
     setOpen,
+    onSubmit,
     open = false,
   } = props
 
@@ -20,6 +22,21 @@ export default function Modal(props: Props) {
   const cancel = useRef(
     null,
   )
+
+  // Ref for the input field.
+  const input = useRef(
+    null,
+  )
+
+  const handler = () => {
+    // Invoke the callback if necessary.
+    if (input?.current && input?.current?.value && onSubmit) {
+      onSubmit(input?.current?.value)
+    }
+
+    // Close the dialog.
+    setOpen(false)
+  }
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -73,7 +90,8 @@ export default function Modal(props: Props) {
                       <p className="text-sm text-gray-500">
                         <input
                           className="w-full border border-gray-200 bg-gray-100 rounded-md overflow-hidden px-5 py-4 text-center text-black outline-none"
-                          placeholder="Enter Pairing Code Here" />
+                          placeholder="Enter Pairing Code Here"
+                          ref={input} />
                       </p>
                     </div>
                   </div>
@@ -84,7 +102,7 @@ export default function Modal(props: Props) {
                 <button
                   type="button"
                   className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
-                  onClick={() => setOpen(false)}>
+                  onClick={handler}>
                   Submit
                 </button>
                 <button

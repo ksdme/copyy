@@ -17,7 +17,7 @@ import Head from '../components/Head/Head'
 import Modal from '../components/Modal/Modal'
 import Nav from '../components/Nav/Nav'
 import Status from '../components/Status/Status'
-import { toCode } from '../hooks/useCode'
+import { toDisplayCode, toUrlCode } from '../hooks/useCode'
 import useContentEditable from '../hooks/useContentEditable'
 import {
   useMqttAutoConnect,
@@ -27,12 +27,12 @@ import {
 } from '../hooks/useMqtt'
 
 export interface Props {
-  defaultCode?: string
+  code?: string
 }
 
 function HomeComponent(props: Props) {
   const {
-    defaultCode,
+    code,
   } = props
 
   // Pair modal.
@@ -115,11 +115,17 @@ function HomeComponent(props: Props) {
     }
   }
 
+  // Change the page to the new code.
+  const onChangeCode = (code: string) => {
+    window.location.replace(`/${toUrlCode(code)}`)
+  }
+
   return (
     <React.Fragment>
       <Modal
         open={modal}
-        setOpen={setModal} />
+        setOpen={setModal}
+        onSubmit={onChangeCode} />
 
       <div className="h-screen flex flex-col gap-y-8 font-orienta bg-gray-100">
         <Nav>
@@ -133,7 +139,7 @@ function HomeComponent(props: Props) {
             </div>
 
             <div className="flex items-center justify-center text-gray-600 cursor-pointer hover:text-black tracking-wide font-medium gap-x-2">
-              {defaultCode}
+              {code}
             </div>
 
             <div className="flex items-center justify-end tracking-wide font-medium gap-x-4">
@@ -204,7 +210,8 @@ function HomeComponent(props: Props) {
             ref={ref}
             onInput={onInput}
             contentEditable={true}
-            suppressContentEditableWarning={true}>
+            suppressContentEditableWarning={true}
+            placeholder="Your Paste">
           </div>
         </div>
       </div>
@@ -227,7 +234,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   } = context.params
 
   const props: Props = {
-    defaultCode: toCode(code as string),
+    code: toDisplayCode(code as string),
   }
 
   return {
