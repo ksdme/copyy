@@ -4,11 +4,17 @@ import {
   ClipboardIcon,
   SortAscendingIcon,
 } from '@heroicons/react/outline'
+import {
+  LinkIcon,
+} from '@heroicons/react/solid'
 import { GetServerSidePropsContext } from 'next'
 import React, { useRef } from 'react'
+import { useState } from 'react'
 import { When } from 'react-if'
+import Button from '../components/Button/Button'
 import LabelStateButton from '../components/Button/LabelStateButton'
 import Head from '../components/Head/Head'
+import Modal from '../components/Modal/Modal'
 import Nav from '../components/Nav/Nav'
 import Status from '../components/Status/Status'
 import { toCode } from '../hooks/useCode'
@@ -28,6 +34,12 @@ function HomeComponent(props: Props) {
   const {
     defaultCode,
   } = props
+
+  // Pair modal.
+  const [
+    modal,
+    setModal,
+  ] = useState(false)
 
   // Establish a connection to the broker on
   // application bootup.
@@ -104,92 +116,99 @@ function HomeComponent(props: Props) {
   }
 
   return (
-    <div className="h-screen flex flex-col gap-y-8 font-orienta bg-gray-100">
-      <Nav>
-        <div className="grid grid-cols-3">
-          <div className="flex">
-            <div className="py-6 border-b-4 border-gray-600">
-              <a href="/" className="font-bold tracking-wide text-gray-800 hover:text-blue-600" target="_blank">
-                text-copy
-              </a>
+    <React.Fragment>
+      <Modal
+        open={modal}
+        setOpen={setModal} />
+
+      <div className="h-screen flex flex-col gap-y-8 font-orienta bg-gray-100">
+        <Nav>
+          <div className="grid grid-cols-3">
+            <div className="flex">
+              <div className="py-6 border-b-4 border-gray-600">
+                <a href="/" className="font-bold tracking-wide text-gray-800 hover:text-blue-600" target="_blank">
+                  text-copy
+                </a>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center text-gray-600 cursor-pointer hover:text-black tracking-wide font-medium gap-x-2">
+              {defaultCode}
+            </div>
+
+            <div className="flex items-center justify-end tracking-wide font-medium gap-x-4">
+              <Button
+                text="Pair"
+                icon={LinkIcon}
+                onClick={() => setModal(!modal)} />
             </div>
           </div>
+        </Nav>
 
-          <div className="flex items-center justify-center text-gray-600 cursor-pointer hover:text-black tracking-wide font-medium gap-x-2">
-            {defaultCode}
-          </div>
+        <div className="grid grid-cols-3 px-8">
+          <div className="col-start-3 flex justify-end items-center gap-x-10">
+            <When condition={online}>
+              <Status status={status} publishing={publishing} />
+            </When>
 
-          <div className="flex items-center justify-end tracking-wide font-medium gap-x-4">
-            <span className="font-medium text-gray-600">
-              Pair
-            </span>
+            <LabelStateButton
+              idle={{
+                label: 'Copy',
+                icon: ClipboardIcon,
+              }}
+              complete={{
+                label: 'Copied',
+                icon: CheckCircleIcon,
+                color: 'text-black',
+              }}
+              onClick={copy}
+              title="Copy" />
+
+            <LabelStateButton
+              idle={{
+                label: 'Paste',
+                icon: ArrowCircleDownIcon,
+              }}
+              complete={{
+                label: 'Pasted',
+                icon: CheckCircleIcon,
+                color: 'text-black',
+              }}
+              onClick={paste}
+              title="Paste" />
+
+            <LabelStateButton
+              idle={{
+                label: 'Force Send',
+                icon: SortAscendingIcon,
+              }}
+              complete={{
+                label: 'Sent',
+                icon: CheckCircleIcon,
+                color: 'text-black',
+              }}
+              onClick={publish}
+              title="Force Send" />
           </div>
         </div>
-      </Nav>
 
-      <div className="grid grid-cols-3 px-8">
-        <div className="col-start-3 flex justify-end items-center gap-x-10">
-          <When condition={online}>
-            <Status status={status} publishing={publishing} />
+        <div className="relative h-full flex-grow mx-8 mb-8">
+          <When condition={!online}>
+            <div className="w-full h-full flex items-center justify-center absolute rounded-lg bg-gray-100">
+              <Status status={status} publishing={publishing} color="text-gray-500" />
+            </div>
           </When>
 
-          <LabelStateButton
-            idle={{
-              label: 'Copy',
-              icon: ClipboardIcon,
-            }}
-            complete={{
-              label: 'Copied',
-              icon: CheckCircleIcon,
-              color: 'text-black',
-            }}
-            onClick={copy}
-            title="Copy" />
-
-          <LabelStateButton
-            idle={{
-              label: 'Paste',
-              icon: ArrowCircleDownIcon,
-            }}
-            complete={{
-              label: 'Pasted',
-              icon: CheckCircleIcon,
-              color: 'text-black',
-            }}
-            onClick={paste}
-            title="Paste" />
-
-          <LabelStateButton
-            idle={{
-              label: 'Force Send',
-              icon: SortAscendingIcon,
-            }}
-            complete={{
-              label: 'Sent',
-              icon: CheckCircleIcon,
-              color: 'text-black',
-            }}
-            onClick={publish}
-            title="Force Send" />
-        </div>
-      </div>
-
-      <div className="relative h-full flex-grow mx-8 mb-8">
-        <When condition={!online}>
-          <div className="w-full h-full flex items-center justify-center absolute rounded-lg bg-gray-100">
-            <Status status={status} publishing={publishing} color="text-gray-500" />
+          <div
+            className="p-8 bg-white h-full resize-none rounded-lg border-2 border-gray-200 outline-none selection-black-white"
+            ref={ref}
+            onInput={onInput}
+            contentEditable={true}
+            suppressContentEditableWarning={true}>
           </div>
-        </When>
-
-        <div
-          className="p-8 bg-white h-full resize-none rounded-lg border-2 border-gray-200 outline-none selection-black-white"
-          ref={ref}
-          onInput={onInput}
-          contentEditable={true}
-          suppressContentEditableWarning={true}>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   )
 }
 
