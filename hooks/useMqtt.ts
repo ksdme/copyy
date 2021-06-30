@@ -85,7 +85,7 @@ export function useTopic(code: string) {
     code ?? 'global'
   )
 
-  return `text-copy/Ve5Z96/${code}`
+  return `copyy/Ve5Z96/${code}`
 }
 
 /*

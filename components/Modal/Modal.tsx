@@ -79,7 +79,7 @@ export default function Modal(props: Props) {
                     </Dialog.Title>
                     <div className="mt-6">
                       <p className="text-sm text-gray-500">
-                        You probably have text-copy open on another browser. To pair this
+                        You probably have copyy open on another browser. To pair this
                         board with the other instance, enter the Pairing Code you see on
                         the other page. You can find it on the top center of the other
                         page.

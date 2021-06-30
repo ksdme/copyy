@@ -8,6 +8,7 @@ import {
   LinkIcon,
 } from '@heroicons/react/solid'
 import { GetServerSidePropsContext } from 'next'
+import Link from 'next/link'
 import React, { useRef } from 'react'
 import { useState } from 'react'
 import { When } from 'react-if'
@@ -131,10 +132,12 @@ function HomeComponent(props: Props) {
         <Nav>
           <div className="grid grid-cols-3">
             <div className="flex">
-              <div className="py-6 border-b-4 border-gray-600">
-                <a href="/" className="font-bold tracking-wide text-gray-800 hover:text-blue-600" target="_blank">
-                  text-copy
-                </a>
+              <div className="py-6">
+                <Link href="/" shallow>
+                  <a className="font-bold tracking-wide text-gray-800 hover:text-blue-600">
+                    copyy
+                  </a>
+                </Link>
               </div>
             </div>
 
