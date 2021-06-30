@@ -130,7 +130,7 @@ function HomeComponent(props: Props) {
 
       <div className="h-screen flex flex-col gap-y-8 font-orienta bg-gray-100">
         <Nav>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-y-6 py-6 sm:py-0">
             <div className="flex">
               <div className="sm:py-6">
                 <Link href="/" shallow>
@@ -154,10 +154,12 @@ function HomeComponent(props: Props) {
           </div>
         </Nav>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 px-8">
-          <div className="col-start-3 flex justify-end items-center gap-x-10">
+        <div className="grid grid-cols-1 sm:grid-cols-3 px-8 overflow-none">
+          <div className="col-start-3 flex justify-end items-center gap-x-10 overflow-none">
             <When condition={online}>
-              <Status status={status} publishing={publishing} />
+              <div className="hidden sm:block">
+                <Status status={status} publishing={publishing} />
+              </div>
             </When>
 
             <LabelStateButton
