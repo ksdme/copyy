@@ -35,21 +35,26 @@ export default function Button(props: Props) {
     conditionals,
   )
 
+  const textContent = Icon
+    ? <Icon className="w-4 h-4" />
+    : null
+
+  const iconContent = text
+    ? text
+    : null
+
   return (
     <button
       className={buttonClasses}
       onClick={onClick}
       title={title}>
-      {
-        Icon
-          ? <Icon className="w-4 h-4" />
-          : null
-      }
-      {
-        text
-          ? text
-          : null
-      }
+      <span>
+        {textContent}
+      </span>
+
+      <span className="whitespace-nowrap">
+        {iconContent}
+      </span>
     </button>
   )
 }
