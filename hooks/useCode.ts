@@ -23,7 +23,7 @@ export function generateCode() {
   // Generate the random words.
   const words = random({
     min: 3,
-    max: 6,
+    max: 5,
   })
 
   // Combine the words.
