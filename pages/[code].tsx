@@ -147,7 +147,7 @@ function HomeComponent(props: Props) {
 
             <div className="flex items-center justify-end tracking-wide font-medium gap-x-4">
               <Button
-                text="Pair"
+                text="pair"
                 icon={LinkIcon}
                 onClick={() => setModal(!modal)} />
             </div>
@@ -164,11 +164,11 @@ function HomeComponent(props: Props) {
 
             <LabelStateButton
               idle={{
-                label: 'Copy',
+                label: 'copy',
                 icon: ClipboardIcon,
               }}
               complete={{
-                label: 'Copied',
+                label: 'copied',
                 icon: CheckCircleIcon,
                 color: 'text-black',
               }}
@@ -177,11 +177,11 @@ function HomeComponent(props: Props) {
 
             <LabelStateButton
               idle={{
-                label: 'Paste',
+                label: 'paste',
                 icon: ArrowCircleDownIcon,
               }}
               complete={{
-                label: 'Pasted',
+                label: 'pasted',
                 icon: CheckCircleIcon,
                 color: 'text-black',
               }}
@@ -190,11 +190,11 @@ function HomeComponent(props: Props) {
 
             <LabelStateButton
               idle={{
-                label: 'Force Send',
+                label: 'force send',
                 icon: SortAscendingIcon,
               }}
               complete={{
-                label: 'Sent',
+                label: 'sent',
                 icon: CheckCircleIcon,
                 color: 'text-black',
               }}
@@ -216,7 +216,7 @@ function HomeComponent(props: Props) {
             onInput={onInput}
             contentEditable={true}
             suppressContentEditableWarning={true}
-            placeholder="Your Paste">
+            placeholder="paste your content here to sync it with the other copyy instance">
           </div>
         </div>
       </div>
