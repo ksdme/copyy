@@ -1,4 +1,4 @@
-import { rword } from 'rword'
+import random from 'random-words'
 
 /*
   Return code for app from the url code.
@@ -20,9 +20,12 @@ export function toUrlCode(code: string) {
   Generates a new code and returns it.
 */
 export function generateCode() {
-  // Generate random words for the code.
-  const words = rword.generate(4) as string[]
+  // Generate the random words.
+  const words = random({
+    min: 3,
+    max: 6,
+  })
 
   // Combine the words.
-  return toUrlCode(words.join())
+  return toUrlCode(words.join('-'))
 }
