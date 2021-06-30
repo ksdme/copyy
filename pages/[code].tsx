@@ -155,7 +155,7 @@ function HomeComponent(props: Props) {
         </Nav>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 px-8 overflow-none">
-          <div className="col-start-3 flex justify-end items-center gap-x-10 overflow-none">
+          <div className="col-start-3 flex justify-center sm:justify-end items-center gap-x-10 overflow-none">
             <When condition={online}>
               <div className="hidden sm:block">
                 <Status status={status} publishing={publishing} />
