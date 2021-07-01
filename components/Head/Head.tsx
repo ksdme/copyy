@@ -9,11 +9,18 @@ interface Props {
 */
 export default function AppHead(props: Props = {}) {
   const {
-    title = 'Text Copy',
+    title = 'copyy • past across devices',
   } = props
 
   return (
     <Head>
+      <meta name="title" content={title} />
+      <meta name="description" content="copy and paste text, or open links across your devices right from your browser." />
+      <meta name="keywords" content="copy,paste,utility,productivity,text,editing,clipboard,share,real-time" />
+      <meta name="robots" content="index, nofollow" />
+      <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta name="language" content="English" />
+
       <title>{title}</title>
       <link rel="icon" href="/favicon.ico" />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
