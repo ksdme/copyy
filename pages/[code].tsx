@@ -118,7 +118,13 @@ function HomeComponent(props: Props) {
 
   // Change the page to the new code.
   const onChangeCode = (code: string) => {
-    window.location.replace(`/${toUrlCode(code)}`)
+    if (code) {
+      // normalize the case of the code.
+      code = code.toLowerCase()
+
+      // Generate the url code and redirect the page.
+      window.location.replace(`/${toUrlCode(code)}`)
+    }
   }
 
   return (
