@@ -30,26 +30,26 @@ export default function Status(props: Props) {
 
   switch (status) {
     case 'online': {
-      message = 'online'
+      message = 'Online'
       icon = StatusOnlineIcon
       break
     }
 
     case 'offline': {
-      message = 'offline'
+      message = 'Offline'
       icon = StatusOfflineIcon
       break
     }
 
     case 'connecting': {
-      message = 'connecting'
+      message = 'Connecting'
       icon = SwitchVerticalIcon
       pulsate = true
       break
     }
 
     case 'error': {
-      message = 'connection failed'
+      message = 'Connection Failed'
       icon = ExclamationCircleIcon
       break
     }
@@ -61,7 +61,7 @@ export default function Status(props: Props) {
   }
 
   if (status === 'online' && publishing) {
-    message = 'publishing'
+    message = 'Publishing'
     icon = UploadIcon
   }
 

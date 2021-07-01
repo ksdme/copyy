@@ -11,7 +11,7 @@ export default function Nav(props: Props) {
   } = props
 
   return (
-    <nav className="flex-none px-4 sm:px-16 bg-white border-b-2 border-gray-200">
+    <nav className="flex-none px-4 sm:px-8 bg-white border-b-2 border-gray-200">
       {children}
     </nav>
   )

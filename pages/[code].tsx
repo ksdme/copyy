@@ -135,7 +135,7 @@ function HomeComponent(props: Props) {
               <div className="sm:py-6">
                 <Link href="/" shallow>
                   <a className="font-bold tracking-wide text-gray-400 hover:text-blue-600 sm:text-gray-800">
-                    copyy
+                    Copyy
                   </a>
                 </Link>
               </div>
@@ -147,7 +147,7 @@ function HomeComponent(props: Props) {
 
             <div className="flex items-center justify-end tracking-wide font-medium gap-x-4">
               <Button
-                text="pair"
+                text="Pair"
                 icon={LinkIcon}
                 onClick={() => setModal(!modal)} />
             </div>
@@ -164,11 +164,11 @@ function HomeComponent(props: Props) {
 
             <LabelStateButton
               idle={{
-                label: 'copy',
+                label: 'Copy',
                 icon: ClipboardIcon,
               }}
               complete={{
-                label: 'copied',
+                label: 'Copied',
                 icon: CheckCircleIcon,
                 color: 'text-black',
               }}
@@ -177,11 +177,11 @@ function HomeComponent(props: Props) {
 
             <LabelStateButton
               idle={{
-                label: 'paste',
+                label: 'Paste',
                 icon: ArrowCircleDownIcon,
               }}
               complete={{
-                label: 'pasted',
+                label: 'Pasted',
                 icon: CheckCircleIcon,
                 color: 'text-black',
               }}
@@ -190,11 +190,11 @@ function HomeComponent(props: Props) {
 
             <LabelStateButton
               idle={{
-                label: 'force send',
+                label: 'Force Send',
                 icon: SortAscendingIcon,
               }}
               complete={{
-                label: 'sent',
+                label: 'Sent',
                 icon: CheckCircleIcon,
                 color: 'text-black',
               }}
@@ -216,7 +216,7 @@ function HomeComponent(props: Props) {
             onInput={onInput}
             contentEditable={true}
             suppressContentEditableWarning={true}
-            placeholder="paste your content here to sync it with the other copyy instance">
+            placeholder="Paste your content here to sync it with the other copyy instance">
           </div>
         </div>
       </div>
