@@ -9,7 +9,7 @@ import {
 } from '@heroicons/react/solid'
 import { GetServerSidePropsContext } from 'next'
 import Link from 'next/link'
-import { useCookie } from 'next-cookie'
+import { useCookie as nextCookie } from 'next-cookie'
 import React, { useRef } from 'react'
 import { useState } from 'react'
 import { When } from 'react-if'
@@ -148,9 +148,11 @@ function HomeComponent(props: Props) {
               </div>
             </div>
 
-            <a href="/?force=1" className="flex items-center justify-center text-gray-600 cursor-pointer hover:text-black tracking-wide font-medium">
-              {code}
-            </a>
+            <Link href="/?force=1" shallow>
+              <a className="flex items-center justify-center text-gray-600 cursor-pointer hover:text-black tracking-wide font-medium">
+                {code}
+              </a>
+            </Link>
 
             <div className="flex items-center justify-end tracking-wide font-medium gap-x-4">
               <Button
@@ -230,8 +232,8 @@ function HomeComponent(props: Props) {
       </div>
 
       <footer className="flex justify-between px-4 sm:px-8 py-12 font-orienta text-gray-400 bg-gray-100">
-        <p><a href="https://github.com/ksdme/copyy" target="_blank">github</a></p>
-        <p>a <a className="text-blue-500" href="https://twitter.com/ksdme" target="_blank">@ksdme</a> production</p>
+        <p><a href="https://github.com/ksdme/copyy" target="_blank" rel="noreferrer">github</a></p>
+        <p>a <a className="text-blue-500" href="https://twitter.com/ksdme" target="_blank" rel="noreferrer">@ksdme</a> production</p>
       </footer>
     </React.Fragment>
   )
@@ -252,7 +254,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
   } = context.params
 
   // Get the cookies from the context.
-  const cookie = useCookie(context)
+  const cookie = nextCookie(context)
 
   // Save the code in the cookie.
   cookie.set('pairing-code', code, {

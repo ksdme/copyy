@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext } from 'next'
-import { useCookie } from 'next-cookie'
+import { useCookie as nextCookie } from 'next-cookie'
 import { generateCode } from '../hooks/useCode'
-import Home, { Props } from './[code]'
+import Home from './[code]'
 
 // Use Home
 export default Home
@@ -9,7 +9,7 @@ export default Home
 // Default to using a random code.
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   // Get the cookies from the context.
-  const cookie = useCookie(context)
+  const cookie = nextCookie(context)
 
   // If the query has force in it, force generate new code.
   const forceGenerate = context.query?.force
