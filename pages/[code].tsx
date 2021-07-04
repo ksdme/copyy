@@ -9,6 +9,7 @@ import {
 } from '@heroicons/react/solid'
 import { GetServerSidePropsContext } from 'next'
 import Link from 'next/link'
+import { useCookie } from 'next-cookie'
 import React, { useRef } from 'react'
 import { useState } from 'react'
 import { When } from 'react-if'
@@ -239,16 +240,22 @@ export default function Home(props: Props) {
   )
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export async function getServerSideProps(context: GetServerSidePropsContext): Promise<{ props: Props }> {
   let {
     code,
   } = context.params
 
-  const props: Props = {
-    code: toDisplayCode(code as string),
-  }
+  // Get the cookies from the context.
+  const cookie = useCookie(context)
+
+  // Save the code in the cookie.
+  cookie.set('pairing-code', code, {
+    maxAge: 2592000,
+  })
 
   return {
-    props,
+    props: {
+      code: toDisplayCode(code as string),
+    },
   }
 }

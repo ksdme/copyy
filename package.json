@@ -16,6 +16,7 @@
     "lodash.uniq": "^4.5.0",
     "mqtt": "^4.2.8",
     "next": "latest",
+    "next-cookie": "^2.6.2",
     "random": "^3.0.6",
     "random-words": "^1.1.1",
     "react": "^17.0.2",
