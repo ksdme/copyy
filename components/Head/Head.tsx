@@ -27,7 +27,7 @@ export default function AppHead(props: Props = {}) {
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
       <link href="https://fonts.googleapis.com/css2?family=Orienta&display=swap" rel="stylesheet" />
 
-      <script defer data-domain="copyy.vercel.app" src="https://plausible.io/js/plausible.js"></script>
+      <script defer data-domain="copyy.app" src="https://plausible.io/js/plausible.js"></script>
     </Head>
   )
 }
