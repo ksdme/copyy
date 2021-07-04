@@ -9,7 +9,7 @@ interface Props {
 */
 export default function AppHead(props: Props = {}) {
   const {
-    title = 'copyy • past across devices',
+    title = 'copyy • paste across devices',
   } = props
 
   return (
