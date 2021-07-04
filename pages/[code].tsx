@@ -148,9 +148,9 @@ function HomeComponent(props: Props) {
               </div>
             </div>
 
-            <div className="flex items-center justify-center text-gray-600 cursor-pointer hover:text-black tracking-wide font-medium gap-x-2">
+            <a href="/?force=1" className="flex items-center justify-center text-gray-600 cursor-pointer hover:text-black tracking-wide font-medium">
               {code}
-            </div>
+            </a>
 
             <div className="flex items-center justify-end tracking-wide font-medium gap-x-4">
               <Button
