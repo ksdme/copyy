@@ -156,7 +156,8 @@ function HomeComponent(props: Props) {
               <Button
                 text="Pair"
                 icon={LinkIcon}
-                onClick={() => setModal(!modal)} />
+                onClick={() => setModal(!modal)}
+                color="text-gray-600" />
             </div>
           </div>
         </Nav>
