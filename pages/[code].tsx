@@ -135,7 +135,7 @@ function HomeComponent(props: Props) {
         setOpen={setModal}
         onSubmit={onChangeCode} />
 
-      <div className="h-screen flex flex-col gap-y-8 font-orienta bg-gray-100">
+      <div className="h-screen flex flex-col gap-y-6 sm:gap-y-8 font-orienta bg-gray-100">
         <Nav>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-y-6 py-6 sm:py-0">
             <div className="flex">
@@ -162,7 +162,7 @@ function HomeComponent(props: Props) {
           </div>
         </Nav>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 px-8 overflow-none">
+        <div className="grid grid-cols-1 sm:grid-cols-3 px-4 sm:px-8 overflow-none">
           <div className="sm:col-start-3 flex justify-center sm:justify-end items-center gap-x-10 overflow-none">
             <When condition={online}>
               <div className="hidden sm:block">
@@ -211,7 +211,7 @@ function HomeComponent(props: Props) {
           </div>
         </div>
 
-        <div className="relative h-full flex-grow mx-8 mb-8">
+        <div className="relative h-full flex-grow mx-4 sm:mx-8 mb-4 sm:mb-8">
           <When condition={!online}>
             <div className="w-full h-full flex items-center justify-center absolute rounded-lg bg-gray-100">
               <Status status={status} publishing={publishing} color="text-gray-500" />
@@ -228,6 +228,11 @@ function HomeComponent(props: Props) {
           </div>
         </div>
       </div>
+
+      <footer className="flex justify-between px-4 sm:px-8 py-12 font-orienta text-gray-400 bg-gray-100">
+        <p><a href="https://github.com/ksdme/copyy" target="_blank">github</a></p>
+        <p>a <a className="text-blue-500" href="https://twitter.com/ksdme" target="_blank">@ksdme</a> production</p>
+      </footer>
     </React.Fragment>
   )
 }
