@@ -27,7 +27,7 @@ export default function AppHead(props: Props = {}) {
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
       <link href="https://fonts.googleapis.com/css2?family=Orienta&display=swap" rel="stylesheet" />
 
-      <script defer data-domain="copyy.app" src="https://plausible.io/js/plausible.js"></script>
+      <script async defer data-website-id="98455341-5aee-4aa4-b73b-0d8197906d10" src="https://ksdmeumami.herokuapp.com/umami.js"></script>
     </Head>
   )
 }
